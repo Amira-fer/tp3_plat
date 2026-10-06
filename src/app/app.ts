@@ -8,5 +8,5 @@ import { RouterLink, RouterOutlet } from '@angular/router';
   templateUrl: './app.html',
 })
 export class App {
-  protected readonly title = signal('mesproduits');
+  protected readonly title = signal('Mesplats');
 }

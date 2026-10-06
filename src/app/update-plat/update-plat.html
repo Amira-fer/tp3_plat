@@ -1,0 +1,68 @@
+<div class="container">
+
+  <div class="card shadow mb-4">
+
+    <div class="card-body">
+
+      <h2>Modifier un Plat :</h2>
+
+      <form>
+
+        <div class="mb-3">
+          <label>Id Plat</label>
+
+          <input
+            type="text"
+            [(ngModel)]="currentPlat.idPlat"
+            name="idPlat"
+            class="form-control">
+        </div>
+
+        <div class="mb-3">
+          <label>Nom Plat</label>
+
+          <input
+            type="text"
+            [(ngModel)]="currentPlat.nomPlat"
+            name="nomPlat"
+            class="form-control">
+        </div>
+
+        <div class="mb-3">
+          <label>Prix Plat</label>
+
+          <input
+            type="number"
+            [(ngModel)]="currentPlat.prixPlat"
+            name="prixPlat"
+            class="form-control">
+        </div>
+
+        <div class="mb-3">
+          <label>Date Ajout</label>
+
+          <input
+            type="date"
+            [ngModel]="currentPlat.dateAjout | date:'yyyy-MM-dd'"
+            (ngModelChange)="currentPlat.dateAjout = $event"
+            name="dateAjout"
+            class="form-control">
+        </div>
+
+        <div class="mt-2">
+
+          <button
+            type="submit"
+            class="btn btn-success">
+            Modifier
+          </button>
+
+        </div>
+
+      </form>
+
+    </div>
+
+  </div>
+
+</div>

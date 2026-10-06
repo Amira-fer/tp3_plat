@@ -1,0 +1,63 @@
+<div class="container">
+
+  <div class="card shadow mb-4">
+
+    <div class="card-body">
+
+      <h2>Ajouter un Plat</h2>
+
+      <form (ngSubmit)="addPlat()">
+
+        <div class="mb-3">
+          <label>Id Plat</label>
+          <input
+            type="number"
+            class="form-control"
+            [(ngModel)]="newPlat.idPlat"
+            name="idPlat">
+        </div>
+
+        <div class="mb-3">
+          <label>Nom Plat</label>
+          <input
+            type="text"
+            class="form-control"
+            [(ngModel)]="newPlat.nomPlat"
+            name="nomPlat">
+        </div>
+
+        <div class="mb-3">
+          <label>Prix Plat</label>
+          <input
+            type="number"
+            class="form-control"
+            [(ngModel)]="newPlat.prixPlat"
+            name="prixPlat">
+        </div>
+
+        <div class="mb-3">
+          <label>Date Ajout</label>
+          <input
+            type="date"
+            class="form-control"
+            [(ngModel)]="newPlat.dateAjout"
+            name="dateAjout">
+        </div>
+
+        <button type="submit" class="btn btn-success">
+          Ajouter
+        </button>
+
+      </form>
+
+      @if (message) {
+        <div class="alert alert-success mt-3">
+          {{ message }}
+        </div>
+      }
+
+    </div>
+
+  </div>
+
+</div>
