@@ -5,6 +5,7 @@ import { Plat } from '../add-plat/model/plat.model';
   providedIn: 'root'
 })
 export class PlatService {
+  [x: string]: any;
 
   plats: Plat[] = [
 
@@ -51,10 +52,20 @@ export class PlatService {
     }
 
   }
-
   consulterPlat(id: number): Plat {
     return this.plats.find(p => p.idPlat == id)!;
   }
+  updatePlat(plat: Plat): void {
+
+    const index = this.plats.findIndex(
+      p => p.idPlat === plat.idPlat
+    );
+
+    if (index !== -1) {
+      this.plats[index] = plat;
+    }
+  }
+
 
 }
 
