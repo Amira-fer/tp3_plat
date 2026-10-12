@@ -13,6 +13,7 @@
                             <th>Nom</th>
                             <th>Prix</th>
                             <th>Date Ajout</th>
+                            <th>Type de cuisine</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
@@ -26,6 +27,7 @@
                         <td>{{ plat.nomPlat }}</td>
                         <td>{{ plat.prixPlat }}</td>
                         <td>{{ plat.dateAjout | date:'dd/MM/yyyy' }}</td>
+                        <td>{{ plat.typecuisine?.nomtype }}</td>
 
                         <td>
                         <button

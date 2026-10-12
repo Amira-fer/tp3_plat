@@ -47,6 +47,20 @@
             name="dateAjout"
             class="form-control">
         </div>
+        <div class="mb-3">
+          <label>Type de cuisine</label>
+          <select
+            class="form-control form-control-lg"
+            id="idtype"
+            name="idtype"
+            [(ngModel)]="updatedTypeId">
+            @for(type of typecuisines; track type.idtype)
+            {
+              <option [value]="type.idtype">{{type.nomtype}}</option>
+            }
+          </select>
+        </div>
+
         <div class="mt-2">
 
           <button
