@@ -46,13 +46,15 @@
 
           <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
 
-            <li>
-              <a
-                class="dropdown-item"
-                routerLink="/add-plat">
-                Ajouter
-              </a>
-            </li>
+            @if (authService.isAdmin()) {
+              <li>
+                <a
+                  class="dropdown-item"
+                  routerLink="/add-plat">
+                  Ajouter
+                </a>
+              </li>
+            }
 
             <li>
               <a
@@ -61,7 +63,21 @@
                 Lister
               </a>
             </li>
-
+            
+            <li>
+              <a
+                class="dropdown-item"
+                routerLink="/recherche-par-typecuisine">
+                Recherche par type de cuisine
+              </a>
+            </li>
+            <li>
+              <a
+                class="dropdown-item"
+                routerLink="/rechercheParNom">
+                Recherche Par Nom
+              </a>
+            </li>
           </ul>
 
         </li>
@@ -79,13 +95,17 @@
             role="button"
             data-bs-toggle="dropdown"
             aria-expanded="false">
-            [username]
+            [{{ authService.loggedUser }}]
           </a>
 
           <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
 
-            <li><a class="dropdown-item" href="#">Login</a></li>
-            <li><a class="dropdown-item" href="#">Logout</a></li>
+            @if (!authService.isloggedIn) {
+              <li><a class="dropdown-item" routerLink="/login">Login</a></li>
+            }
+            @else {
+              <li><a class="dropdown-item" (click)="onLogout()">Logout</a></li>
+            }
             <li><a class="dropdown-item" href="#">Profile</a></li>
 
           </ul>

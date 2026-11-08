@@ -18,6 +18,7 @@ export class PlatService {
   ];
 
   plats: Plat[] = [
+    
     {
       idPlat: 1,
       nomPlat: 'pizza',
@@ -37,7 +38,7 @@ export class PlatService {
       nomPlat: 'Sushi',
       prixPlat: 35,
       dateAjout: new Date('09/26/2026'),
-      typecuisine: { idtype: 2, nomtype: 'Japonais' }
+      typecuisine: { idtype: 3, nomtype: 'Japonais' }
     }
   ];
 
@@ -46,6 +47,11 @@ export class PlatService {
   listePlats(): Plat[] {
     return this.plats;
   }
+  rechercherParNom(nom: string): Plat[] {
+  return this.listePlats().filter(
+    p => (p.nomPlat ?? '').toLowerCase().includes(nom.toLowerCase())
+  );
+}
 
   listeTypecuisines(): typecuisine[] {
     return this.typecuisines;

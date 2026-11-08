@@ -1,0 +1,48 @@
+<div class="container">
+  <form class="form-inline">
+    <div class="form-group mx-sm-3 mb-2 mt-2">
+      <label class="form-label fw-bold">Nom Plat en tapant</label>
+      <input #nom [(ngModel)]="searchTerm" name="searchTerm" class="form-control" placeholder="Taper le nom du plat...">
+    </div>
+  </form>
+
+  <div class="card shadow mb-4">
+    <div class="card-body">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>Id</th>
+            <th>Nom</th>
+            <th>Prix</th>
+            <th>Date Création</th>
+            <th>Catégorie</th>
+            @if (authService.isAdmin()) {
+              <th>Actions</th>
+            }
+          </tr>
+        </thead>
+        <tbody>
+          @for (plat of plats | searchFilter: searchTerm; track plat.idPlat) {
+            <tr>
+              <td>{{ plat.idPlat }}</td>
+              <td>{{ plat.nomPlat }}</td>
+              <td>{{ plat.prixPlat }}</td>
+              <td>{{ plat.dateAjout | date:'dd/MM/yyyy' }}</td>
+              @if (plat.typecuisine) {
+                <td>{{ plat.typecuisine.nomtype }}</td>
+              } @else {
+                <td>PAS DE CATEGORIE</td>
+              }
+              @if (authService.isAdmin()) {
+                <td>
+                  <button class="btn btn-danger" (click)="supprimerPlat(plat)">Supprimer</button>
+                  <a class="btn btn-success ms-2" [routerLink]="['/updatePlat', plat.idPlat]">Modifier</a>
+                </td>
+              }
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

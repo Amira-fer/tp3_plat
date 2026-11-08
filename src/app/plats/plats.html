@@ -14,7 +14,9 @@
                             <th>Prix</th>
                             <th>Date Ajout</th>
                             <th>Type de cuisine</th>
-                            <th>Actions</th>
+                            @if (authService.isAdmin()) {
+                                <th>Actions</th>
+                            }
                         </tr>
                     </thead>
 
@@ -29,19 +31,20 @@
                         <td>{{ plat.dateAjout | date:'dd/MM/yyyy' }}</td>
                         <td>{{ plat.typecuisine?.nomtype }}</td>
 
-                        <td>
-                        <button
-                            class="btn btn-danger"
-                            (click)="supprimerPlat(plat)">
-                            Supprimer
-                        </button>
-
-                        <a
-                            class="btn btn-success ms-2"
-                            [routerLink]="['/updatePlat', plat.idPlat]">
-                            Modifier
-                        </a>
-                        </td>
+                        @if (authService.isAdmin()) {
+                            <td>
+                            <button
+                                class="btn btn-danger"
+                                (click)="supprimerPlat(plat)">
+                                Supprimer
+                            </button>
+                            <a
+                                class="btn btn-success ms-2"
+                                [routerLink]="['/updatePlat', plat.idPlat]">
+                                Modifier
+                            </a>
+                            </td>
+                        }
 
                     </tr>
                     }
