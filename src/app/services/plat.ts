@@ -8,11 +8,11 @@ import { typecuisine } from '../add-plat/model/typecuisine.model';
 export class PlatService {
 
   typecuisines: typecuisine[] = [
-    { idtype: 1, nomtype: 'Tunisienne', idCat: 1, nomCat: 'Tunisienne' },
-    { idtype: 2, nomtype: 'Italienne', idCat: 2, nomCat: 'Italienne' },
-    { idtype: 3, nomtype: 'Japonais', idCat: 3, nomCat: 'Japonais' },
-    { idtype: 4, nomtype: 'Mexicain', idCat: 4, nomCat: 'Mexicain' },
-    { idtype: 5, nomtype: 'Espagnol', idCat: 5, nomCat: 'Espagnol' },
+    { idtype: 1, nomtype: 'Tunisienne' },
+    { idtype: 2, nomtype: 'Italienne' },
+    { idtype: 3, nomtype: 'Japonais' },
+    { idtype: 4, nomtype: 'Mexicain' },
+    { idtype: 5, nomtype: 'Espagnol' },
   ];
 
   plats: Plat[] = [
@@ -21,21 +21,21 @@ export class PlatService {
       nomPlat: 'pizza',
       prixPlat: 25,
       dateAjout: new Date('10/03/2026'),
-      typecuisine: { idtype: 2, nomtype: 'Italienne', idCat: 2, nomCat: 'Italienne' }
+      typecuisine: { idtype: 2, nomtype: 'Italienne' }
     },
     {
       idPlat: 2,
       nomPlat: 'slata mchwiya',
       prixPlat: 15,
       dateAjout: new Date('10/01/2026'),
-      typecuisine: { idtype: 1, nomtype: 'Tunisienne', idCat: 1, nomCat: 'Tunisienne' }
+      typecuisine: { idtype: 1, nomtype: 'Tunisienne' }
     },
     {
       idPlat: 3,
       nomPlat: 'Sushi',
       prixPlat: 35,
       dateAjout: new Date('09/26/2026'),
-      typecuisine: { idtype: 3, nomtype: 'Japonais', idCat: 3, nomCat: 'Japonais' }
+      typecuisine: { idtype: 3, nomtype: 'Japonais' }
     }
   ];
 
@@ -55,34 +55,22 @@ export class PlatService {
     return this.typecuisines;
   }
 
-  listeCategories(): typecuisine[] {
-    return this.typecuisines;
-  }
-
   consulterTypecuisine(id: number): typecuisine {
-    return this.typecuisines.find(type => (type.idtype === Number(id) || type.idCat === Number(id)))!;
+    return this.typecuisines.find(type => type.idtype === Number(id))!;
   }
 
-  ajouterCategorie(cat: typecuisine): typecuisine {
-    const id = cat.idCat || cat.idtype;
-    const index = this.typecuisines.findIndex(
-      t => (t.idCat && t.idCat === id) || (t.idtype && t.idtype === id)
-    );
-
-    if (index !== -1 && id && id !== 0) {
-      this.typecuisines[index].nomtype = cat.nomCat || cat.nomtype;
-      this.typecuisines[index].nomCat = cat.nomCat || cat.nomtype;
+  ajouterTypecuisine(type: typecuisine): typecuisine {
+    const index = this.typecuisines.findIndex(t => t.idtype === type.idtype);
+    if (index !== -1 && type.idtype && type.idtype !== 0) {
+      this.typecuisines[index] = type;
       return this.typecuisines[index];
     } else {
       const maxId = this.typecuisines.length > 0
-        ? Math.max(...this.typecuisines.map(t => t.idCat || t.idtype || 0))
+        ? Math.max(...this.typecuisines.map(t => t.idtype || 0))
         : 0;
-      cat.idCat = maxId + 1;
-      cat.idtype = cat.idCat;
-      cat.nomtype = cat.nomCat || cat.nomtype;
-      cat.nomCat = cat.nomtype;
-      this.typecuisines.push(cat);
-      return cat;
+      type.idtype = maxId + 1;
+      this.typecuisines.push(type);
+      return type;
     }
   }
 
@@ -110,4 +98,5 @@ export class PlatService {
     }
   }
 }
+
 export { Plat };

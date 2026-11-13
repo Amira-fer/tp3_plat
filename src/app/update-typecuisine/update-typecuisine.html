@@ -1,30 +1,30 @@
 <form>
   <div [hidden]="ajout">
-    <label>ID Catégorie</label>
+    <label>ID Type de cuisine</label>
     <input
       type="text"
-      [(ngModel)]="categorie.idCat"
-      name="idCategorie"
+      [(ngModel)]="typecuisine.idtype"
+      name="idtype"
       class="form-control w-25"
       readonly
     >
   </div>
   <div>
-    <label>Nom Catégorie</label>
+    <label>Nom Type de cuisine</label>
     <input
       type="text"
-      [(ngModel)]="categorie.nomCat"
-      name="nomCategorie"
+      [(ngModel)]="typecuisine.nomtype"
+      name="nomtype"
       class="form-control"
-      placeholder="Entrez un nom de catégorie..."
+      placeholder="Entrez un nom de type de cuisine..."
     >
   </div>
   <div class="mt-2">
     <button
       type="submit"
-      [disabled]="!categorie.nomCat"
+      [disabled]="!typecuisine.nomtype"
       class="btn btn-success"
-      (click)="saveCategorie()"
+      (click)="saveTypecuisine()"
     >
       {{ ajout ? 'Ajouter' : 'Modifier' }}
     </button>

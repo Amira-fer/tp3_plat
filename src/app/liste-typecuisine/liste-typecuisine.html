@@ -1,11 +1,11 @@
 <div class="container mt-4">
 
   <div class="col-sm-4 col-md-4 col-lg-4 mb-4">
-    <app-update-categorie
-      [categorie]="updatedCat"
-      (categorieUpdated)="categorieUpdated($event)"
+    <app-update-typecuisine
+      [typecuisine]="updatedType"
+      (typecuisineUpdated)="typecuisineUpdated($event)"
       [ajout]="ajout"
-    ></app-update-categorie>
+    ></app-update-typecuisine>
   </div>
 
   <div class="card shadow mb-4">
@@ -14,17 +14,17 @@
         <thead>
           <tr>
             <th>Id</th>
-            <th>Nom Catégorie</th>
+            <th>Nom Type de cuisine</th>
             <th>Actions</th>
           </tr>
         </thead>
-        @for (cat of categories; track cat.idCat) {
+        @for (type of typesCuisine; track type.idtype) {
           <tbody>
             <tr>
-              <td>{{ cat.idCat }}</td>
-              <td>{{ cat.nomCat }}</td>
+              <td>{{ type.idtype }}</td>
+              <td>{{ type.nomtype }}</td>
               <td>
-                <a class="btn btn-success" (click)="updateCat(cat)">Editer</a>
+                <a class="btn btn-success" (click)="updateType(type)">Editer</a>
               </td>
             </tr>
           </tbody>
