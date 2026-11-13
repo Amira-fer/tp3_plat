@@ -7,6 +7,7 @@ import { RechercheParNom } from './recherche-par-nom/recherche-par-nom';
 import { Login } from './login/login';
 import { Forbidden } from './forbidden/forbidden';
 import { platGuard } from './plat.guard';
+import { ListeCategoriesComponent } from './liste-categories/liste-categories';
 
 export const routes: Routes = [
   { path: 'plats', component: Plats },
@@ -15,6 +16,8 @@ export const routes: Routes = [
   { path: 'recherche-par-typecuisine', component: RechercheParTypecuisine },
   { path: 'rechercheParNom', component: RechercheParNom },
   { path: 'recherche-par-nom', redirectTo: 'rechercheParNom', pathMatch: 'full' },
+  { path: 'listeCategories', component: ListeCategoriesComponent },
+  { path: 'liste-categories', redirectTo: 'listeCategories', pathMatch: 'full' },
   { path: 'login', component: Login },
   { path: 'app-forbidden', component: Forbidden },
   { path: '', redirectTo: 'plats', pathMatch: 'full' }

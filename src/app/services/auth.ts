@@ -8,7 +8,9 @@ import { User } from '../model/user.model';
 export class AuthService {
   users: User[] = [
     { username: 'admin', password: '123', roles: ['ADMIN'] },
-    { username: 'nadhem', password: '123', roles: ['USER'] }
+    { username: 'nadhem', password: '123', roles: ['USER'] },
+    { username: 'amira', password: '123', roles: ['USER'] }
+
   ];
 
   public loggedUser!: string;
