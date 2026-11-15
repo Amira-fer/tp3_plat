@@ -44,12 +44,19 @@ export class PlatService {
   listePlats(): Plat[] {
     return this.plats;
   }
-
+  //hetha jdid
+  rechercherParTypecuisine(id: number): Plat[] {
+  return this.plats.filter(
+    p => p.typecuisine.idtype === Number(id)
+  );
+  }//.
+  
   rechercherParNom(nom: string): Plat[] {
     return this.listePlats().filter(
       p => (p.nomPlat ?? '').toLowerCase().includes(nom.toLowerCase())
     );
   }
+  
 
   listeTypecuisines(): typecuisine[] {
     return this.typecuisines;

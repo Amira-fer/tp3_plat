@@ -39,3 +39,4 @@ export class ListeTypecuisineComponent implements OnInit {
 }
 
 export { ListeTypecuisineComponent as ListeTypecuisine };
+

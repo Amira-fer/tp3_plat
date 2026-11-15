@@ -28,3 +28,4 @@ export class UpdateTypecuisineComponent implements OnInit {
 }
 
 export { UpdateTypecuisineComponent as UpdateTypecuisine };
+
