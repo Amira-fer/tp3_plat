@@ -1,4 +1,3 @@
-
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DatePipe } from '@angular/common';
@@ -13,9 +12,8 @@ import { typecuisine } from '../add-plat/model/typecuisine.model';
   templateUrl: './update-plat.html'
 })
 export class UpdatePlat implements OnInit {
-
   currentPlat = new Plat();
-  typecuisines!: typecuisine[];
+  typecuisines: typecuisine[] = [];
   updatedTypeId!: number;
 
   constructor(
@@ -24,24 +22,26 @@ export class UpdatePlat implements OnInit {
     private platService: PlatService
   ) {}
 
- 
   ngOnInit(): void {
-    this.typecuisines = this.platService.listeTypecuisines();
+    this.platService.listeTypecuisines().subscribe(types => {
+      console.log(types);
+      this.typecuisines = types;
+    });
 
     const id = Number(this.activatedRoute.snapshot.params['id']);
-
-    this.currentPlat = this.platService.consulterPlat(id);
-
-    this.updatedTypeId = this.currentPlat.typecuisine.idtype;
-
-    console.log(this.currentPlat);
+    this.platService.consulterPlat(id).subscribe(prod => {
+      this.currentPlat = prod;
+      if (this.currentPlat.typecuisine) {
+        this.updatedTypeId = this.currentPlat.typecuisine.idtype;
+      }
+      console.log(this.currentPlat);
+    });
   }
-
 
   updatePlat(): void {
-    this.currentPlat.typecuisine = this.platService.consulterTypecuisine(this.updatedTypeId);
-    this.platService.updatePlat(this.currentPlat);
-    this.router.navigate(['plats']);
+    this.currentPlat.typecuisine = this.typecuisines.find(t => t.idtype == this.updatedTypeId)!;
+    this.platService.updatePlat(this.currentPlat).subscribe(() => {
+      this.router.navigate(['plats']);
+    });
   }
-
 }

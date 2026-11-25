@@ -14,8 +14,8 @@ import { AuthService } from '../services/auth';
   templateUrl: './recherche-par-nom.html',
 })
 export class RechercheParNom implements OnInit {
-  plats!: Plat[];
-  allPlats!: Plat[];
+  plats: Plat[] = [];
+  allPlats: Plat[] = [];
   nomPlat!: string;
   searchTerm!: string;
 
@@ -25,25 +25,33 @@ export class RechercheParNom implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.plats = this.platService.listePlats();
-    this.allPlats = this.plats;
+    this.chargerPlats();
+  }
+
+  chargerPlats(): void {
+    this.platService.listePlats().subscribe(prods => {
+      this.plats = prods;
+      this.allPlats = prods;
+    });
   }
 
   supprimerPlat(plat: Plat): void {
     const conf = confirm('Etes-vous sûr ?');
     if (conf) {
-      this.platService.supprimerPlat(plat);
-      this.plats = this.platService.listePlats();
-      this.allPlats = this.plats;
+      this.platService.supprimerPlat(plat.idPlat!).subscribe(() => {
+        this.chargerPlats();
+      });
     }
   }
 
   // Étape 16 & Amélioration (Recherche avec bouton / formulaire)
   rechercherPlats(): void {
     if (this.nomPlat) {
-      this.plats = this.platService.rechercherParNom(this.nomPlat);
+      this.platService.rechercherParNom(this.nomPlat).subscribe(prods => {
+        this.plats = prods;
+      });
     } else {
-      this.plats = this.platService.listePlats();
+      this.chargerPlats();
     }
   }
 

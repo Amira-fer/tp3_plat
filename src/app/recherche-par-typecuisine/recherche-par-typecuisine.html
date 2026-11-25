@@ -1,20 +1,24 @@
+
 <div class="container mt-4">
 
   <h2>Recherche des plats par type de cuisine</h2>
 
   <div class="col-sm-4 mb-4">
 
-
     <label>Type de cuisine</label>
 
-    <select class="form-control" name="idType" [(ngModel)]="idType" (change)="onChange()">
+    <select
+      class="form-control"
+      name="idType"
+      [(ngModel)]="idType"
+      (change)="onChange()">
 
       <option [ngValue]="0">Tous les types</option>
 
       @for (type of typesCuisine; track type.idtype) {
-      <option [ngValue]="type.idtype">
-        {{ type.nomtype }}
-      </option>
+        <option [ngValue]="type.idtype">
+          {{ type.nomtype }}
+        </option>
       }
 
     </select>
@@ -23,46 +27,68 @@
 
   <div class="card shadow mb-4">
     <div class="card-body">
-      <table class="table table-striped">
 
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Nom du plat</th>
-            <th>Prix</th>
-            <th>Date d'ajout</th>
-            <th>Type de cuisine</th>
-            @if (authService.isAdmin()) {
-            <th>Actions</th>
+      @if (plats.length > 0) {
+
+        <table class="table table-striped">
+
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Nom du plat</th>
+              <th>Prix</th>
+              <th>Date d'ajout</th>
+              <th>Type de cuisine</th>
+
+              @if (authService.isAdmin()) {
+                <th>Actions</th>
+              }
+            </tr>
+          </thead>
+
+          <tbody>
+
+            @for (plat of plats; track plat.idPlat) {
+
+              <tr>
+                <td>{{ plat.idPlat }}</td>
+                <td>{{ plat.nomPlat }}</td>
+                <td>{{ plat.prixPlat }}</td>
+                <td>{{ plat.dateAjout | date:'dd/MM/yyyy' }}</td>
+                <td>{{ plat.typecuisine?.nomtype }}</td>
+
+                @if (authService.isAdmin()) {
+                  <td>
+
+                    <button
+                      class="btn btn-danger"
+                      (click)="supprimerPlat(plat)">
+                      Supprimer
+                    </button>
+
+                    <a
+                      class="btn btn-success ms-2"
+                      [routerLink]="['/updatePlat', plat.idPlat]">
+                      Modifier
+                    </a>
+
+                  </td>
+                }
+
+              </tr>
+
             }
-          </tr>
-        </thead>
 
-        <tbody>
+          </tbody>
 
-          @for (plat of plats; track plat.idPlat) {
-          <tr>
-            <td>{{ plat.idPlat }}</td>
-            <td>{{ plat.nomPlat }}</td>
-            <td>{{ plat.prixPlat }}</td>
-            <td>{{ plat.dateAjout | date:'dd/MM/yyyy' }}</td>
-            <td>{{ plat.typecuisine.nomtype }}</td>
-            @if (authService.isAdmin()) {
-            <td>
-              <button class="btn btn-danger" (click)="supprimerPlat(plat)">
-                Supprimer
-              </button>
-              <a class="btn btn-success ms-2" [routerLink]="['/updatePlat', plat.idPlat]">
-                Modifier
-              </a>
-            </td>
-            }
-          </tr>
-          }
+        </table>
 
-        </tbody>
+      } @else {
 
-      </table>
+        <h3>Aucun plat trouvé !</h3>
+
+      }
+
     </div>
   </div>
 

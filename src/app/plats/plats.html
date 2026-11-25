@@ -1,9 +1,12 @@
+
 <div class="container">
     <div class="card shadow mb-4">
         <div class="card-body">
 
-            @if (plats.length != 0)
-            {
+            <h2 class="mb-3">Liste des plats</h2>
+
+            <div *ngIf="plats.length > 0; else aucunPlat">
+
                 <table class="table table-striped">
 
                     <thead>
@@ -14,48 +17,51 @@
                             <th>Prix</th>
                             <th>Date Ajout</th>
                             <th>Type de cuisine</th>
-                            @if (authService.isAdmin()) {
-                                <th>Actions</th>
-                            }
+
+                            <th *ngIf="authService.isAdmin()">
+                                Actions
+                            </th>
                         </tr>
                     </thead>
 
                     <tbody>
-                       @for (plat of plats; track plat.idPlat; let index = $index)
-                    {
-                    <tr>
-                        <td>{{ index + 1 }}</td>
-                        <td>{{ plat.idPlat }}</td>
-                        <td>{{ plat.nomPlat }}</td>
-                        <td>{{ plat.prixPlat }}</td>
-                        <td>{{ plat.dateAjout | date:'dd/MM/yyyy' }}</td>
-                        <td>{{ plat.typecuisine?.nomtype }}</td>
 
-                        @if (authService.isAdmin()) {
-                            <td>
-                            <button
-                                class="btn btn-danger"
-                                (click)="supprimerPlat(plat)">
-                                Supprimer
-                            </button>
-                            <a
-                                class="btn btn-success ms-2"
-                                [routerLink]="['/updatePlat', plat.idPlat]">
-                                Modifier
-                            </a>
+                        <tr *ngFor="let plat of plats; let i = index">
+
+                            <td>{{ i + 1 }}</td>
+                            <td>{{ plat.idPlat }}</td>
+                            <td>{{ plat.nomPlat }}</td>
+                            <td>{{ plat.prixPlat }}</td>
+                            <td>{{ plat.dateAjout | date:'dd/MM/yyyy' }}</td>
+                            <td>{{ plat.typecuisine?.nomtype }}</td>
+
+                            <td *ngIf="authService.isAdmin()">
+
+                                <button
+                                    class="btn btn-danger"
+                                    (click)="supprimerPlat(plat)">
+                                    Supprimer
+                                </button>
+
+                                <a
+                                    class="btn btn-success ms-2"
+                                    [routerLink]="['/updatePlat', plat.idPlat]">
+                                    Modifier
+                                </a>
+
                             </td>
-                        }
 
-                    </tr>
-                    }
+                        </tr>
+
                     </tbody>
 
-                </table> 
-            }
-            @else
-            {
+                </table>
+
+            </div>
+
+            <ng-template #aucunPlat>
                 <h1>Aucun plat trouvé !</h1>
-            }
+            </ng-template>
 
         </div>
     </div>

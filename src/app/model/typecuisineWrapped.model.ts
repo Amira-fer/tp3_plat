@@ -1,4 +1,10 @@
-import { Typecuisine } from './typecuisine.model';
+import { typecuisine } from './typecuisine.model';
+
 export class TypecuisineWrapper {
-    _embedded!: { typecuisineS: Typecuisine[] };
-} 
+  _embedded!: {
+    typecuisines?: typecuisine[];
+    categories?: typecuisine[];
+  };
+}
+
+export { TypecuisineWrapper as CategorieWrapper };

@@ -10,7 +10,7 @@ import { UpdateTypecuisineComponent } from '../update-typecuisine/update-typecui
   templateUrl: './liste-typecuisine.html',
 })
 export class ListeTypecuisineComponent implements OnInit {
-  typesCuisine!: typecuisine[];
+  typesCuisine: typecuisine[] = [];
   updatedType: typecuisine = { idtype: 0, nomtype: '' };
   ajout: boolean = true;
 
@@ -21,15 +21,18 @@ export class ListeTypecuisineComponent implements OnInit {
   }
 
   chargerTypesCuisine(): void {
-    this.typesCuisine = this.platService.listeTypecuisines();
+    this.platService.listeTypecuisines().subscribe(types => {
+      this.typesCuisine = types;
+    });
   }
 
   typecuisineUpdated(type: typecuisine): void {
     console.log('Type cuisine updated event', type);
-    this.platService.ajouterTypecuisine(type);
-    this.chargerTypesCuisine();
-    this.updatedType = { idtype: 0, nomtype: '' };
-    this.ajout = true;
+    this.platService.ajouterTypecuisine(type).subscribe(() => {
+      this.chargerTypesCuisine();
+      this.updatedType = { idtype: 0, nomtype: '' };
+      this.ajout = true;
+    });
   }
 
   updateType(type: typecuisine): void {
@@ -39,4 +42,3 @@ export class ListeTypecuisineComponent implements OnInit {
 }
 
 export { ListeTypecuisineComponent as ListeTypecuisine };
-

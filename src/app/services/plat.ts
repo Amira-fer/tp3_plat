@@ -1,108 +1,67 @@
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Plat } from '../add-plat/model/plat.model';
 import { typecuisine } from '../add-plat/model/typecuisine.model';
+import { environment } from '../../environments/environment';
+
+const httpOptions = {
+  headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+};
 
 @Injectable({
   providedIn: 'root'
 })
 export class PlatService {
 
-  typecuisines: typecuisine[] = [
-    { idtype: 1, nomtype: 'Tunisienne' },
-    { idtype: 2, nomtype: 'Italienne' },
-    { idtype: 3, nomtype: 'Japonais' },
-    { idtype: 4, nomtype: 'Mexicain' },
-    { idtype: 5, nomtype: 'Espagnol' },
-  ];
+  apiURL: string = environment.apiURL || 'http://localhost:8090/plats/api';
 
-  plats: Plat[] = [
-    {
-      idPlat: 1,
-      nomPlat: 'pizza',
-      prixPlat: 25,
-      dateAjout: new Date('10/03/2026'),
-      typecuisine: { idtype: 2, nomtype: 'Italienne' }
-    },
-    {
-      idPlat: 2,
-      nomPlat: 'slata mchwiya',
-      prixPlat: 15,
-      dateAjout: new Date('10/01/2026'),
-      typecuisine: { idtype: 1, nomtype: 'Tunisienne' }
-    },
-    {
-      idPlat: 3,
-      nomPlat: 'Sushi',
-      prixPlat: 35,
-      dateAjout: new Date('09/26/2026'),
-      typecuisine: { idtype: 3, nomtype: 'Japonais' }
-    }
-  ];
+  constructor(private http: HttpClient) {}
 
-  constructor() {}
-
-  listePlats(): Plat[] {
-    return this.plats;
-  }
-  //hetha jdid
-  rechercherParTypecuisine(id: number): Plat[] {
-  return this.plats.filter(
-    p => p.typecuisine.idtype === Number(id)
-  );
-  }//.
-  
-  rechercherParNom(nom: string): Plat[] {
-    return this.listePlats().filter(
-      p => (p.nomPlat ?? '').toLowerCase().includes(nom.toLowerCase())
-    );
-  }
-  
-
-  listeTypecuisines(): typecuisine[] {
-    return this.typecuisines;
+  listePlats(): Observable<Plat[]> {
+    return this.http.get<Plat[]>(this.apiURL);
   }
 
-  consulterTypecuisine(id: number): typecuisine {
-    return this.typecuisines.find(type => type.idtype === Number(id))!;
+  ajouterPlat(plat: Plat): Observable<Plat> {
+    return this.http.post<Plat>(this.apiURL, plat, httpOptions);
   }
 
-  ajouterTypecuisine(type: typecuisine): typecuisine {
-    const index = this.typecuisines.findIndex(t => t.idtype === type.idtype);
-    if (index !== -1 && type.idtype && type.idtype !== 0) {
-      this.typecuisines[index] = type;
-      return this.typecuisines[index];
-    } else {
-      const maxId = this.typecuisines.length > 0
-        ? Math.max(...this.typecuisines.map(t => t.idtype || 0))
-        : 0;
-      type.idtype = maxId + 1;
-      this.typecuisines.push(type);
-      return type;
-    }
+  supprimerPlat(id: number): Observable<any> {
+    const url = `${this.apiURL}/${id}`;
+    return this.http.delete(url, httpOptions);
   }
 
-  ajouterPlat(plat: Plat): void {
-    this.plats.push(plat);
+  consulterPlat(id: number): Observable<Plat> {
+    const url = `${this.apiURL}/${id}`;
+    return this.http.get<Plat>(url);
   }
 
-  supprimerPlat(plat: Plat): void {
-    const index = this.plats.indexOf(plat);
-    if (index > -1) {
-      this.plats.splice(index, 1);
-    }
+  updatePlat(plat: Plat): Observable<Plat> {
+    return this.http.put<Plat>(this.apiURL, plat, httpOptions);
   }
 
-  consulterPlat(id: number): Plat {
-    return this.plats.find(p => p.idPlat === id)!;
+  listeTypecuisines(): Observable<typecuisine[]> {
+    return this.http.get<typecuisine[]>(`${this.apiURL}/type`);
   }
 
-  updatePlat(plat: Plat): void {
-    const index = this.plats.findIndex(
-      p => p.idPlat === plat.idPlat
-    );
-    if (index !== -1) {
-      this.plats[index] = plat;
-    }
+  listeCategories(): Observable<typecuisine[]> {
+    return this.listeTypecuisines();
+  }
+
+  consulterTypecuisine(id: number): Observable<typecuisine> {
+    return this.http.get<typecuisine>(`${this.apiURL}/type/${id}`);
+  }
+
+  ajouterTypecuisine(type: typecuisine): Observable<typecuisine> {
+    return this.http.post<typecuisine>(`${this.apiURL}/type`, type, httpOptions);
+  }
+
+  rechercherParTypecuisine(idType: number): Observable<Plat[]> {
+    return this.http.get<Plat[]>(`${this.apiURL}/platstype/${idType}`);
+  }
+
+  rechercherParNom(nom: string): Observable<Plat[]> {
+    return this.http.get<Plat[]>(`${this.apiURL}/platsByName/${nom}`);
   }
 }
 

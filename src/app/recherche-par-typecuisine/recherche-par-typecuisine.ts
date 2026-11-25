@@ -15,9 +15,9 @@ import { AuthService } from '../services/auth';
   templateUrl: './recherche-par-typecuisine.html',
 })
 export class RechercheParTypecuisine implements OnInit {
-  plats!: Plat[];
-  typesCuisine!: typecuisine[];
-  idType!: number;
+  plats: Plat[] = [];
+  typesCuisine: typecuisine[] = [];
+  idType: number = 0;
 
   constructor(
     private platService: PlatService,
@@ -25,26 +25,34 @@ export class RechercheParTypecuisine implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.typesCuisine = this.platService.listeTypecuisines();
-    this.plats = this.platService.listePlats();
-    this.idType = 0;
+    this.platService.listeTypecuisines().subscribe(types => {
+      this.typesCuisine = types;
+    });
+    this.chargerPlats();
+  }
+
+  chargerPlats(): void {
+    this.platService.listePlats().subscribe(prods => {
+      this.plats = prods;
+    });
   }
 
   onChange(): void {
     if (this.idType == 0) {
-      this.plats = this.platService.listePlats();
+      this.chargerPlats();
     } else {
-      this.plats = this.platService
-        .listePlats()
-        .filter((p) => p.typecuisine.idtype == this.idType);
+      this.platService.rechercherParTypecuisine(this.idType).subscribe(prods => {
+        this.plats = prods;
+      });
     }
   }
 
   supprimerPlat(plat: Plat): void {
     const conf = confirm('Etes-vous sûr ?');
     if (conf) {
-      this.platService.supprimerPlat(plat);
-      this.onChange();
+      this.platService.supprimerPlat(plat.idPlat!).subscribe(() => {
+        this.onChange();
+      });
     }
   }
 }

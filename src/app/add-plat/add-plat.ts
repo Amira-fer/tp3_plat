@@ -1,9 +1,8 @@
-
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
 import { Plat } from './model/plat.model';
 import { PlatService } from '../services/plat';
-import { Router } from '@angular/router';
 import { typecuisine } from './model/typecuisine.model';
 
 @Component({
@@ -12,13 +11,9 @@ import { typecuisine } from './model/typecuisine.model';
   templateUrl: './add-plat.html'
 })
 export class AddPlat implements OnInit {
-
   newPlat = new Plat();
-
-  typecuisines!: typecuisine[];
+  typecuisines: typecuisine[] = [];
   newIdtype!: number;
-  newtypecuisine!: typecuisine;
-
   message!: string;
 
   constructor(
@@ -27,17 +22,17 @@ export class AddPlat implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.typecuisines = this.platService.listeTypecuisines();
+    this.platService.listeTypecuisines().subscribe(types => {
+      console.log(types);
+      this.typecuisines = types;
+    });
   }
 
   addPlat(): void {
-    this.newtypecuisine =
-      this.platService.consulterTypecuisine(this.newIdtype);
-
-    this.newPlat.typecuisine = this.newtypecuisine;
-
-    this.platService.ajouterPlat(this.newPlat);
-
-    this.router.navigate(['/plats']);
+    this.newPlat.typecuisine = this.typecuisines.find(t => t.idtype == this.newIdtype)!;
+    this.platService.ajouterPlat(this.newPlat).subscribe(prod => {
+      console.log(prod);
+      this.router.navigate(['plats']);
+    });
   }
 }
